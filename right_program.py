@@ -2,6 +2,9 @@ import os
 import openpyxl as excel
 import pandas as pd
 
+# mail modules
+
+
 PATH = ""
 FILENAME = ""
 COLUMNS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
@@ -45,7 +48,7 @@ def prepare_sales_sheet(wb):
     ship_to_state_list = []
     invoice_amount_list = []
     quantity_list = []
-    for num in range(1, len(transaction_type_column)):
+    for num in range(1, len(transaction_type_column)+1):
         if (wb[wb.sheetnames[0]][f"D{num}"].value == "Shipment" or wb[wb.sheetnames[0]][f"D{num}"].value == "Cancel"):
             transaction_type = wb[wb.sheetnames[0]][f"D{num}"].value
             transaction_type_list.append(transaction_type)
@@ -65,29 +68,29 @@ def prepare_sales_sheet(wb):
 
             quantity = wb[wb.sheetnames[0]][f"J{num}"].value
             quantity_list.append(quantity)
-    for num in range(2, len(transaction_type_list)+1):
+    for num in range(2, len(transaction_type_list)+2):
         # invoice number colum
         sales_sheet[f"A{num}"].value = "MAIN"
-        sales_sheet[f"B{num}"].value = invoice_date_list[num-1]
-        sales_sheet[f"C{num}"].value = invoice_numbers_list[num-1]
+        sales_sheet[f"B{num}"].value = invoice_date_list[num-2]
+        sales_sheet[f"C{num}"].value = invoice_numbers_list[num-2]
 
-        if(ship_to_state_list[num-1] == "DELHI"):
+        if(ship_to_state_list[num-2] == "DELHI"):
             sales_sheet[f"D{num}"].value = "Amazon Local"
         else:
             sales_sheet[f"D{num}"].value = "Amazon Igst"
         sales_sheet[f"E{num}"].value = "AMAZON SELLERS PVT. LTD."
-        sales_sheet[f"F{num}"].value = ship_to_state_list[num-1]
-        sales_sheet[f"G{num}"].value = ship_to_state_list[num-1]
+        sales_sheet[f"F{num}"].value = ship_to_state_list[num-2]
+        sales_sheet[f"G{num}"].value = ship_to_state_list[num-2]
         # transaction type column
         sales_sheet[f"H{num}"].value = "MAIN STORE"
         sales_sheet[f"I{num}"].value = "MULTIMEDIA SPEAKER SYSTEM"
         # sales_sheet[f"J{num}"].value=""
-        sales_sheet[f"J{num}"].value = quantity_list[num-1]
+        sales_sheet[f"J{num}"].value = quantity_list[num-2]
         sales_sheet[f"K{num}"].value = "Pcs."
-        sales_sheet[f"L{num}"].value = invoice_amount_list[num-1]
-        sales_sheet[f"M{num}"].value = invoice_amount_list[num-1]
+        sales_sheet[f"L{num}"].value = invoice_amount_list[num-2]
+        sales_sheet[f"M{num}"].value = invoice_amount_list[num-2]
         sales_sheet[f"N{num}"].value = 8518
-        sales_sheet[f"O{num}"].value = transaction_type_list[num-1]
+        sales_sheet[f"O{num}"].value = transaction_type_list[num-2]
 
 
 def prepare_salesreturn_sheet(wb):
@@ -111,7 +114,7 @@ def prepare_salesreturn_sheet(wb):
     quantity_list = []
     credit_note_date_list = []
     credit_note_number_list = []
-    for num in range(1, len(transaction_type_column)):
+    for num in range(1, len(transaction_type_column)+1):
         if (wb[wb.sheetnames[0]][f"D{num}"].value == "Refund"):
             transaction_type = wb[wb.sheetnames[0]][f"D{num}"].value
             transaction_type_list.append(transaction_type)
@@ -138,33 +141,33 @@ def prepare_salesreturn_sheet(wb):
 
             credit_note_number = wb[wb.sheetnames[0]][f"BY{num}"].value
             credit_note_number_list.append(credit_note_number)
-    for num in range(2, len(transaction_type_list)+1):
+    for num in range(2, len(transaction_type_list)+2):
         # invoice number colum
         sales_return_sheet[f"A{num}"].value = "MAIN"
-        sales_return_sheet[f"B{num}"].value = credit_note_date_list[num-1]
-        sales_return_sheet[f"C{num}"].value = credit_note_number_list[num-1]
+        sales_return_sheet[f"B{num}"].value = credit_note_date_list[num-2]
+        sales_return_sheet[f"C{num}"].value = credit_note_number_list[num-2]
 
-        if(ship_to_state_list[num-1] == "DELHI"):
+        if(ship_to_state_list[num-2] == "DELHI"):
             sales_return_sheet[f"D{num}"].value = "Amazon Local"
         else:
             sales_return_sheet[f"D{num}"].value = "Amazon Igst"
         sales_return_sheet[f"E{num}"].value = "AMAZON SELLERS PVT. LTD."
-        sales_return_sheet[f"F{num}"].value = ship_to_state_list[num-1]
-        sales_return_sheet[f"G{num}"].value = invoice_numbers_list[num-1]
-        sales_return_sheet[f"H{num}"].value = invoice_date_list[num-1]
+        sales_return_sheet[f"F{num}"].value = ship_to_state_list[num-2]
+        sales_return_sheet[f"G{num}"].value = invoice_numbers_list[num-2]
+        sales_return_sheet[f"H{num}"].value = invoice_date_list[num-2]
 
-        sales_return_sheet[f"I{num}"].value = invoice_amount_list[num-1]
-        sales_return_sheet[f"J{num}"].value = invoice_amount_list[num-1]
+        sales_return_sheet[f"I{num}"].value = invoice_amount_list[num-2]
+        sales_return_sheet[f"J{num}"].value = invoice_amount_list[num-2]
         # transaction type column
-        sales_return_sheet[f"K{num}"].value = ship_to_state_list[num-1]
+        sales_return_sheet[f"K{num}"].value = ship_to_state_list[num-2]
         sales_return_sheet[f"L{num}"].value = "MAIN STORE"
         sales_return_sheet[f"M{num}"].value = "MULTIMEDIA SPEAKER SYSTEM"
         # sales_sheet[f"J{num}"].value=""
-        sales_return_sheet[f"N{num}"].value = quantity_list[num-1]
+        sales_return_sheet[f"N{num}"].value = quantity_list[num-2]
         sales_return_sheet[f"O{num}"].value = "Pcs."
 
         sales_return_sheet[f"P{num}"].value = 8518
-        sales_return_sheet[f"Q{num}"].value = transaction_type_list[num-1]
+        sales_return_sheet[f"Q{num}"].value = transaction_type_list[num-2]
 
 
 def access_excel_file():
@@ -172,9 +175,9 @@ def access_excel_file():
     os_type = input(
         "Please enter the type of file system you are using : (linux/windows) : ").lower()
     if os_type == 'windows':
-        PATH = "C:\\Users\\Pc\\OneDrive\\Desktop\\excel_sheets"
+        PATH = "C:\\Users\\Pc\\OneDrive\\Desktop\\excel_sheets\\"
     elif os_type == "linux":
-        PATH = r"/mnt/c/Users/Pc/onedrive/desktop/excel_sheets"
+        PATH = r"/mnt/c/Users/Pc/onedrive/desktop/excel_sheets/"
     else:
         print("Run the program again! you made a typo above there!")
     os.chdir(PATH)
